@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Papyrus');
+body {
+    font-family: 'Papyrus';
+    color: var(--text-color);
+    margin: 0;
+    --header-color: #d4b7df;
+    --sidebar-color: #d4b7df;
+    --text-color: black;
+}

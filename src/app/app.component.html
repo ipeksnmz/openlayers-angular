@@ -1,0 +1,24 @@
+<header>
+  <div class="title">MAP VIEWER</div>
+  <hr>
+</header>
+
+<main>
+  <div class="left-bar">
+    <button (click)="showRandomMarkers = true">Show Random Markers</button>
+    <button (click)="showClickedMarkers()">Show Clicked Markers</button>
+  </div>  
+  
+  <div #map class="map"></div>
+  
+  <div class="map-container">
+    <app-map #mapComponent [showRandomMarkers]="showRandomMarkers" (showRandomMarkersChange)="showRandomMarkersChanged($event)"></app-map>
+  </div>
+
+</main>
+
+<footer>
+  <app-scaleline #scaleLineComponent ></app-scaleline>
+  MADE BY ipeks
+  <!-- <mouse-position [map]="map"></mouse-position> -->
+</footer>
