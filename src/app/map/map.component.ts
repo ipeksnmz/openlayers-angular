@@ -20,7 +20,9 @@ import OSM from 'ol/source/OSM';
 
 export class MapComponent implements OnInit, OnDestroy{
   @ViewChild('map', { static: true }) mapElement!: ElementRef;
+
   map!: Map;
+  
   @Input() showRandomMarkers: boolean = true;
   @Output() showRandomMarkersChange = new EventEmitter<boolean>();
 

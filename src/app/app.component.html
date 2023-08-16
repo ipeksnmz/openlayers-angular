@@ -5,14 +5,18 @@
 
 <main>
   <div class="left-bar">
-    <button (click)="showRandomMarkers = true">Show Random Markers</button>
-    <button (click)="showClickedMarkers()">Show Clicked Markers</button>
+
+    <button (click)="toggleRandomMarkers()">{{ doesShowRandomMarkers ? 'Hide Random Markers' : 'Show Random Markers'}}</button>
+    <br>
+    <br>
+    <!-- <button (click)="showRandomMarkers(true)">Show Random Markers</button> -->
+    <button (click)="toggleClickedMarkers()">{{ doesShowClickedMarkers ? 'Hide Clicked Markers' : 'Show Clicked Markers'}}</button>
   </div>  
   
   <div #map class="map"></div>
   
   <div class="map-container">
-    <app-map #mapComponent [showRandomMarkers]="showRandomMarkers" (showRandomMarkersChange)="showRandomMarkersChanged($event)"></app-map>
+    <app-map #mapComponent [showRandomMarkers]="doesShowRandomMarkers" (showRandomMarkersChange)="showRandomMarkers($event)"></app-map>
   </div>
 
 </main>

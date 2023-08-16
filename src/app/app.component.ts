@@ -15,16 +15,26 @@ import { ScalelineComponent } from './scaleline/scaleline.component';
 export class AppComponent implements OnInit{
   @ViewChild('mapComponent', { static: true }) mapComponent!: MapComponent;
   @ViewChild('scaleLineComponent', { static: true }) scaleLineComponent!: ScalelineComponent;
-  showRandomMarkers: boolean = true;
-  // clickedMarker: boolean = false;
+  doesShowRandomMarkers: boolean = true;
+  doesShowClickedMarkers: boolean = false;
 
-
-  showRandomMarkersChanged(value: boolean) {
-    this.showRandomMarkers = value;
+  showRandomMarkers(value: boolean) {
+    console.log("hi");
+    this.doesShowRandomMarkers = value;
+    this.doesShowClickedMarkers = !value;
   }
 
-  showClickedMarkers() {
-    this.showRandomMarkers = !this.showRandomMarkers;
+  showClickedMarkers(value: boolean) {
+    this.doesShowClickedMarkers = value;
+    this.doesShowRandomMarkers = !value;
+  }
+
+  toggleClickedMarkers() {
+    this.doesShowClickedMarkers = !this.doesShowClickedMarkers;
+  }
+
+  toggleRandomMarkers() {
+    this.doesShowRandomMarkers = !this.doesShowRandomMarkers;
   }
 
   ngOnInit(): void {
@@ -40,6 +50,7 @@ export class AppComponent implements OnInit{
       ],
       // target: 'ol-map'
     });
+
     this.mapComponent.setMap(map);
     this.scaleLineComponent.setMap(map);
   }
