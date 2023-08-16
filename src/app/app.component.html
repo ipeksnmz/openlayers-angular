@@ -5,11 +5,9 @@
 
 <main>
   <div class="left-bar">
-
     <button (click)="toggleRandomMarkers()">{{ doesShowRandomMarkers ? 'Hide Random Markers' : 'Show Random Markers'}}</button>
     <br>
     <br>
-    <!-- <button (click)="showRandomMarkers(true)">Show Random Markers</button> -->
     <button (click)="toggleClickedMarkers()">{{ doesShowClickedMarkers ? 'Hide Clicked Markers' : 'Show Clicked Markers'}}</button>
   </div>  
   
@@ -24,5 +22,5 @@
 <footer>
   <app-scaleline #scaleLineComponent ></app-scaleline>
   MADE BY ipeks
-  <!-- <mouse-position [map]="map"></mouse-position> -->
+  <mouse-position #mousePositionComponent ></mouse-position>
 </footer>

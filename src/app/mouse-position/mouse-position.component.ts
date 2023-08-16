@@ -5,12 +5,12 @@ import { CoordinateFormatterService } from '../coordinate-formatter.service';
 
 @Component({
   selector: 'mouse-position',
-  template: ``,
+  template: '',
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MousePositionComponent implements OnInit{
-  @Input() map!: Map;
+  map!: Map;
   @Input() fractionDigits!: number;
   control!: ControlMousePosition;
 
@@ -21,6 +21,11 @@ export class MousePositionComponent implements OnInit{
   {}
 
   ngOnInit() {
+    
+  }
+
+  setMap(map : Map){
+    this.map = map;
     this.control = new ControlMousePosition({
       className: 'mouseposition-control',
       coordinateFormat: (coordinates?: number[]) => this.coordinateFormatter.numberCoordinates(coordinates!, this.fractionDigits),
