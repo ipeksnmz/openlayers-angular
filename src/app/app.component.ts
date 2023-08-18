@@ -21,10 +21,12 @@ export class AppComponent implements OnInit{
   doesShowRandomMarkers: boolean = true;
   doesShowClickedMarkers: boolean = false;
 
-  showRandomMarkers(value: boolean) {
-    console.log("hi");
-    this.doesShowRandomMarkers = value;
-    this.doesShowClickedMarkers = !value;
+  showRandomMarkers() {
+    // this.mapComponent.startRandomMarkers();
+  }
+
+  hideRandomMarkers(){
+
   }
 
   showClickedMarkers(value: boolean) {
@@ -33,11 +35,16 @@ export class AppComponent implements OnInit{
   }
 
   toggleClickedMarkers() {
+    //startCoordinateUpdate();
     this.doesShowClickedMarkers = !this.doesShowClickedMarkers;
   }
 
   toggleRandomMarkers() {
     this.doesShowRandomMarkers = !this.doesShowRandomMarkers;
+    if (this.doesShowRandomMarkers) 
+      this.showRandomMarkers();
+    else 
+      this.hideRandomMarkers();
   }
 
   ngOnInit(): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import { fromLonLat } from 'ol/proj';
@@ -18,43 +18,15 @@ import OSM from 'ol/source/OSM';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class MapComponent implements OnInit, OnDestroy{
+export class MapComponent implements OnInit{
   @ViewChild('map', { static: true }) mapElement!: ElementRef;
-
-  map!: Map;
-  
-  @Input() showRandomMarkers: boolean = true;
-  @Output() showRandomMarkersChange = new EventEmitter<boolean>();
-
-  constructor(private elementRef: ElementRef) {}
+  @Input() map!: Map;
+  constructor(private elementRef: ElementRef) {
+  }
 
   interval: any;
-  randomMarkerSource!: VectorSource;
-  randomMarkerLayer!: VectorLayer<VectorSource>;
-  
-  clickedMarkerSource!: VectorSource;
-  clickedMarkerLayer!: VectorLayer<VectorSource>;
-
-  setMap(map: Map) {
-    this.map = map;
-    this.map.setTarget(this.elementRef.nativeElement);
-
-    this.randomMarkerSource = new VectorSource();
-    this.randomMarkerLayer = new VectorLayer({
-      source: this.randomMarkerSource,
-      style: new Style({
-        image: new Icon({
-          src: 'assets/icon.png', 
-          anchor: [0.5, 1],
-          scale: 0.05
-        })
-      })
-    });
-    
-    this.map.addLayer(new TileLayer({ source: new OSM() }));
-    
-    this.startCoordinateUpdate();
-  }
+  markerSource!: VectorSource;
+  markerLayer!: VectorLayer<VectorSource>;
 
   ngOnInit() {
     
@@ -64,64 +36,45 @@ export class MapComponent implements OnInit, OnDestroy{
     this.stopCoordinateUpdate();
   }
 
-  startCoordinateUpdate() {
-    if (this.showRandomMarkers){
-      this.interval = setInterval(() => {
-        const lon = (Math.random() * 360) - 180; 
-        const lat = (Math.random() * 180) - 90; 
-        const coordinates = fromLonLat([lon, lat]);
+  setMap(map: Map) {
+    this.map = map;
+    this.map.setTarget(this.elementRef.nativeElement);
 
-        const markerFeature = new Feature({
-          geometry: new Point(coordinates)
-        });
-
-        this.randomMarkerSource.clear(); 
-        this.randomMarkerSource.addFeature(markerFeature);
-      }, 3000);
-    }
-
-    else {
-      this.clickedMarkerSource = new VectorSource();
-      this.clickedMarkerLayer = new VectorLayer({
-        source: this.clickedMarkerSource
-      });
-
-      const clickedMarkerStyle = new Style({
+    this.markerSource = new VectorSource();
+    this.markerLayer = new VectorLayer({
+      source: this.markerSource,
+      style: new Style({
         image: new Icon({
-          src: 'assets/xIcon.png', 
+          src: 'assets/icon.png', 
           anchor: [0.5, 1],
           scale: 0.05
         })
+      })
+    });
+
+    this.map.addLayer(new TileLayer({ source: new OSM() }));
+    this.map.addLayer(this.markerLayer);
+
+    this.startCoordinateUpdate();
+  }
+
+  startCoordinateUpdate() {
+    this.interval = setInterval(() => {
+      const lon = (Math.random() * 360) - 180; 
+      const lat = (Math.random() * 180) - 90; 
+      const coordinates = fromLonLat([lon, lat]);
+      //projection: 'EPSG:4326'
+
+      const markerFeature = new Feature({
+        geometry: new Point(coordinates)
       });
 
-      this.map.on('click', (event) => {
-        const clickedCoordinate = event.coordinate;
-
-        const markerFeature = new Feature({
-          geometry: new Point(clickedCoordinate)
-        });
-
-        markerFeature.setStyle(clickedMarkerStyle);
-
-        this.clickedMarkerSource.clear();
-        this.clickedMarkerSource.addFeature(markerFeature);
-      });
-
-      this.map.addLayer(this.randomMarkerLayer);
-    }
+      this.markerSource.clear(); 
+      this.markerSource.addFeature(markerFeature);
+    }, 3000);
   }
 
   stopCoordinateUpdate() {
     clearInterval(this.interval);
-  }
-
-  setRandomMarkers() {
-    this.randomMarkerLayer.setVisible(true);
-    this.clickedMarkerLayer.setVisible(false);
-  }
-
-  showClickedMarkers() {
-    this.randomMarkerLayer.setVisible(false);
-    this.clickedMarkerLayer.setVisible(true);
   }
 }
