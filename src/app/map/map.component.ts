@@ -21,28 +21,37 @@ import OSM from 'ol/source/OSM';
 export class MapComponent implements OnInit{
   @ViewChild('map', { static: true }) mapElement!: ElementRef;
   @Input() map!: Map;
-  constructor(private elementRef: ElementRef) {
-  }
+
+  constructor(private elementRef: ElementRef) {}
 
   interval: any;
-  markerSource!: VectorSource;
-  markerLayer!: VectorLayer<VectorSource>;
+  randomSource!: VectorSource;
+  randomLayer!: VectorLayer<VectorSource>;
+
+  iconFeature!: Feature;
+  clickedSource!: VectorSource;
+  clickedLayer!: VectorLayer<VectorSource>;
 
   ngOnInit() {
     
   }
 
   ngOnDestroy() {
-    this.stopCoordinateUpdate();
+    this.hideRandomMarkers();
   }
 
   setMap(map: Map) {
     this.map = map;
     this.map.setTarget(this.elementRef.nativeElement);
 
-    this.markerSource = new VectorSource();
-    this.markerLayer = new VectorLayer({
-      source: this.markerSource,
+    this.showRandomMarkers();
+    this.showClickedMarkers();
+  }
+
+  showRandomMarkers() {
+    this.randomSource = new VectorSource();
+    this.randomLayer = new VectorLayer({
+      source: this.randomSource,
       style: new Style({
         image: new Icon({
           src: 'assets/icon.png', 
@@ -53,28 +62,54 @@ export class MapComponent implements OnInit{
     });
 
     this.map.addLayer(new TileLayer({ source: new OSM() }));
-    this.map.addLayer(this.markerLayer);
+    this.map.addLayer(this.randomLayer);
 
-    this.startCoordinateUpdate();
-  }
-
-  startCoordinateUpdate() {
     this.interval = setInterval(() => {
       const lon = (Math.random() * 360) - 180; 
       const lat = (Math.random() * 180) - 90; 
       const coordinates = fromLonLat([lon, lat]);
-      //projection: 'EPSG:4326'
 
       const markerFeature = new Feature({
         geometry: new Point(coordinates)
       });
 
-      this.markerSource.clear(); 
-      this.markerSource.addFeature(markerFeature);
+      this.randomSource.clear(); 
+      this.randomSource.addFeature(markerFeature);
     }, 3000);
   }
 
-  stopCoordinateUpdate() {
+  hideRandomMarkers() {
     clearInterval(this.interval);
+    this.randomLayer.setVisible(false);
+  }
+
+  showClickedMarkers(){
+    this.clickedSource = new VectorSource();
+    this.clickedLayer = new VectorLayer({
+      source: this.clickedSource,
+      style: new Style({
+        image: new Icon({
+          src: 'assets/xIcon.png', 
+          anchor: [0.5, 1],
+          scale: 0.05
+        })
+      })
+    });
+    this.map.addLayer(this.clickedLayer);
+
+    this.map.on('click', (event) => {
+      const clickedCoordinate = event.coordinate;
+      this.clickedSource.clear();
+      const iconFeature = new Feature({
+        geometry: new Point(clickedCoordinate)
+      });
+
+  
+      this.clickedSource.addFeature(iconFeature);
+    });
+  }
+  
+  hideClickedMarkers(){
+    this.clickedLayer.setVisible(false);
   }
 }

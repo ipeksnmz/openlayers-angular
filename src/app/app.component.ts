@@ -21,30 +21,20 @@ export class AppComponent implements OnInit{
   doesShowRandomMarkers: boolean = true;
   doesShowClickedMarkers: boolean = false;
 
-  showRandomMarkers() {
-    // this.mapComponent.startRandomMarkers();
-  }
-
-  hideRandomMarkers(){
-
-  }
-
-  showClickedMarkers(value: boolean) {
-    this.doesShowClickedMarkers = value;
-    this.doesShowRandomMarkers = !value;
-  }
-
   toggleClickedMarkers() {
-    //startCoordinateUpdate();
     this.doesShowClickedMarkers = !this.doesShowClickedMarkers;
+    if(this.doesShowClickedMarkers)
+      this.mapComponent.showClickedMarkers();
+    else
+      this.mapComponent.hideClickedMarkers();
   }
 
   toggleRandomMarkers() {
     this.doesShowRandomMarkers = !this.doesShowRandomMarkers;
     if (this.doesShowRandomMarkers) 
-      this.showRandomMarkers();
+      this.mapComponent.showRandomMarkers();
     else 
-      this.hideRandomMarkers();
+      this.mapComponent.hideRandomMarkers();
   }
 
   ngOnInit(): void {
