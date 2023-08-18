@@ -18,7 +18,7 @@ export class AppComponent implements OnInit{
   @ViewChild('scaleLineComponent', { static: true }) scaleLineComponent!: ScalelineComponent;
   @ViewChild('mousePositionComponent', { static: true }) mousePositionComponent!: MousePositionComponent;
   
-  doesShowRandomMarkers: boolean = true;
+  doesShowRandomMarkers: boolean = false;
   doesShowClickedMarkers: boolean = false;
 
   toggleClickedMarkers() {

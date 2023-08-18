@@ -44,6 +44,8 @@ export class MapComponent implements OnInit{
     this.map = map;
     this.map.setTarget(this.elementRef.nativeElement);
 
+    this.map.addLayer(new TileLayer({ source: new OSM() }));
+
     this.showRandomMarkers();
     this.showClickedMarkers();
   }
@@ -61,7 +63,6 @@ export class MapComponent implements OnInit{
       })
     });
 
-    this.map.addLayer(new TileLayer({ source: new OSM() }));
     this.map.addLayer(this.randomLayer);
 
     this.interval = setInterval(() => {
@@ -95,6 +96,7 @@ export class MapComponent implements OnInit{
         })
       })
     });
+
     this.map.addLayer(this.clickedLayer);
 
     this.map.on('click', (event) => {
@@ -103,7 +105,6 @@ export class MapComponent implements OnInit{
       const iconFeature = new Feature({
         geometry: new Point(clickedCoordinate)
       });
-
   
       this.clickedSource.addFeature(iconFeature);
     });
