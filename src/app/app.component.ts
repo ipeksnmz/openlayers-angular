@@ -21,6 +21,8 @@ export class AppComponent implements OnInit{
   doesShowRandomMarkers: boolean = false;
   doesShowClickedMarkers: boolean = false;
 
+  mapOpacity!: number;
+
   toggleClickedMarkers() {
     this.doesShowClickedMarkers = !this.doesShowClickedMarkers;
     if(this.doesShowClickedMarkers)
@@ -48,11 +50,16 @@ export class AppComponent implements OnInit{
           source: new OSM(),
         }),
       ],
-      // target: 'ol-map'
+      target: 'ol-map'
     });
 
     this.mapComponent.setMap(map);
     this.scaleLineComponent.setMap(map);
     this.mousePositionComponent.setMap(map);
+  }
+
+  updateMapOpacity(opacity: number) {
+    this.mapOpacity = opacity;
+    this.mapComponent.changeMapOpacity(this.mapOpacity);
   }
 }

@@ -32,6 +32,8 @@ export class MapComponent implements OnInit{
   clickedSource!: VectorSource;
   clickedLayer!: VectorLayer<VectorSource>;
 
+  mapOpacity!: number;
+
   ngOnInit() {
     
   }
@@ -46,11 +48,13 @@ export class MapComponent implements OnInit{
 
     this.map.addLayer(new TileLayer({ source: new OSM() }));
 
-    this.showRandomMarkers();
-    this.showClickedMarkers();
+    this.addRandomLayer();
+    this.addClickedLayer();
+    // this.showRandomMarkers();
+    // this.showClickedMarkers();
   }
 
-  showRandomMarkers() {
+  addRandomLayer(){
     this.randomSource = new VectorSource();
     this.randomLayer = new VectorLayer({
       source: this.randomSource,
@@ -64,7 +68,10 @@ export class MapComponent implements OnInit{
     });
 
     this.map.addLayer(this.randomLayer);
+  }
 
+  showRandomMarkers() {
+    this.randomLayer.setVisible(true);
     this.interval = setInterval(() => {
       const lon = (Math.random() * 360) - 180; 
       const lat = (Math.random() * 180) - 90; 
@@ -76,15 +83,16 @@ export class MapComponent implements OnInit{
 
       this.randomSource.clear(); 
       this.randomSource.addFeature(markerFeature);
-    }, 3000);
+    }, 2000);
   }
 
   hideRandomMarkers() {
     clearInterval(this.interval);
+    this.randomSource.clear();
     this.randomLayer.setVisible(false);
   }
 
-  showClickedMarkers(){
+  addClickedLayer(){
     this.clickedSource = new VectorSource();
     this.clickedLayer = new VectorLayer({
       source: this.clickedSource,
@@ -98,7 +106,10 @@ export class MapComponent implements OnInit{
     });
 
     this.map.addLayer(this.clickedLayer);
+  }
 
+  showClickedMarkers(){
+    this.clickedLayer.setVisible(true);
     this.map.on('click', (event) => {
       const clickedCoordinate = event.coordinate;
       this.clickedSource.clear();
@@ -111,6 +122,15 @@ export class MapComponent implements OnInit{
   }
   
   hideClickedMarkers(){
+    this.clickedSource.clear();
     this.clickedLayer.setVisible(false);
+  }
+
+  changeMapOpacity(opacity: number) {
+    this.map.getLayers().forEach(layer => {
+      if (layer instanceof TileLayer) {
+        layer.setOpacity(opacity);
+      }
+    });
   }
 }
