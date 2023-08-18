@@ -9,6 +9,7 @@ import { Vector as VectorSource } from 'ol/source';
 import { Style, Icon } from 'ol/style';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
+import { SearchService } from '../search.service';
 
 
 @Component({
@@ -22,7 +23,9 @@ export class MapComponent implements OnInit{
   @ViewChild('map', { static: true }) mapElement!: ElementRef;
   @Input() map!: Map;
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(
+    private elementRef: ElementRef,
+    private searchService: SearchService) {}
 
   interval: any;
   randomSource!: VectorSource;
@@ -50,8 +53,6 @@ export class MapComponent implements OnInit{
 
     this.addRandomLayer();
     this.addClickedLayer();
-    // this.showRandomMarkers();
-    // this.showClickedMarkers();
   }
 
   addRandomLayer(){
@@ -133,4 +134,18 @@ export class MapComponent implements OnInit{
       }
     });
   }
+
+  startSearch(query: string) {
+    this.searchService.search(query).subscribe(response => {
+      if (response.features && response.features.length > 0) {
+        const coordinates = response.features[0].geometry.coordinates;
+        this.map.getView().animate({
+          center: fromLonLat(coordinates),
+          zoom: 10.8,
+          duration: 1000
+        });
+      }
+    });
+  }
+
 }

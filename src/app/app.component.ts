@@ -22,8 +22,10 @@ export class AppComponent implements OnInit{
   doesShowClickedMarkers: boolean = false;
 
   mapOpacity!: number;
+  searchInput!: string;
 
   toggleClickedMarkers() {
+    console.log("hi");
     this.doesShowClickedMarkers = !this.doesShowClickedMarkers;
     if(this.doesShowClickedMarkers)
       this.mapComponent.showClickedMarkers();
@@ -61,5 +63,10 @@ export class AppComponent implements OnInit{
   updateMapOpacity(opacity: number) {
     this.mapOpacity = opacity;
     this.mapComponent.changeMapOpacity(this.mapOpacity);
+  }
+
+  performSearch(searchInput: string){
+    this.searchInput = searchInput;
+    this.mapComponent.startSearch(searchInput);
   }
 }
