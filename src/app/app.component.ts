@@ -25,7 +25,7 @@ export class AppComponent implements OnInit{
   searchInput!: string;
 
   toggleClickedMarkers() {
-    console.log("hi");
+
     this.doesShowClickedMarkers = !this.doesShowClickedMarkers;
     if(this.doesShowClickedMarkers)
       this.mapComponent.showClickedMarkers();
