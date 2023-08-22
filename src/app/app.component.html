@@ -28,6 +28,7 @@
     <div class="search-container">
       <input 
         #searchInput type="text" placeholder="Search for a place" (keydown.enter)="performSearch(searchInput.value)"
+        (keydown.enter)="performSearch(searchInput.value)"
       />
       <button (click)="performSearch(searchInput.value)">Search</button>
     </div>
