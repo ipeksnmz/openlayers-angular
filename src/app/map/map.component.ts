@@ -36,6 +36,8 @@ export class MapComponent implements OnInit{
 
   mapOpacity!: number;
 
+  searchSuggestions: any[] = [];
+
   ngOnInit() {
     
   }
@@ -136,6 +138,7 @@ export class MapComponent implements OnInit{
 
   startSearch(query: string) {
     this.searchService.search(query).subscribe(response => {
+      //this.searchSuggestions = response.features;
       if (response.features && response.features.length > 0) {
         const coordinates = response.features[0].geometry.coordinates;
         this.map.getView().animate({
@@ -144,6 +147,12 @@ export class MapComponent implements OnInit{
           duration: 1000
         });
       }
+    });
+  }
+
+  startTypeahead(query: string) {
+    this.searchService.search(query).subscribe(response => {
+      this.searchSuggestions = response.features;
     });
   }
 }

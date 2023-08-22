@@ -21,9 +21,6 @@ export class AppComponent implements OnInit{
   doesShowRandomMarkers: boolean = false;
   doesShowClickedMarkers: boolean = false;
 
-  mapOpacity!: number;
-  searchInput!: string;
-
   toggleClickedMarkers() {
 
     this.doesShowClickedMarkers = !this.doesShowClickedMarkers;
@@ -58,15 +55,5 @@ export class AppComponent implements OnInit{
     this.mapComponent.setMap(map);
     this.scaleLineComponent.setMap(map);
     this.mousePositionComponent.setMap(map);
-  }
-
-  updateMapOpacity(opacity: number) {
-    this.mapOpacity = opacity;
-    this.mapComponent.changeMapOpacity(this.mapOpacity);
-  }
-
-  performSearch(searchInput: string){
-    this.searchInput = searchInput;
-    this.mapComponent.startSearch(searchInput);
   }
 }
