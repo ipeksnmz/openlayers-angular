@@ -27,3 +27,13 @@ footer {
     padding: 1em;
     justify-content: space-between;
 }
+.dropdown {
+    position: relative;
+}
+  
+.dropdown select {
+    position: absolute;
+    width: 67%;
+    top: 100%;
+    left: 0;
+}

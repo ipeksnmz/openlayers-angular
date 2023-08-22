@@ -26,17 +26,23 @@
     <br>
     <div class="search-container">
       <input 
-        #searchInput type="text" 
+        type="text" 
         (input)="mapComponent.startTypeahead($any($event.target).value)"
-        
         placeholder="Search for a place" 
-        
-        (keydown.enter)="mapComponent.startSearch(searchInput.value)"
+        (keydown.enter)="mapComponent.startSearch($any($event.target).value)"
       />
-      <button (click)="mapComponent.startSearch(searchInput.value)">Search</button>
-      <ul>
-        <li *ngFor="let suggestion of mapComponent.searchSuggestions">{{ suggestion.properties.name }}</li>
-      </ul>
+
+      <button (click)="mapComponent.startSearch($any($event.target).value)">Search</button>
+      
+      <div class="dropdown" *ngIf="mapComponent.searchSuggestions.length > 0">
+        <select (click)="mapComponent.startSearch($any($event.target).value)">
+          <option value="" disabled></option>
+          <option *ngFor="let suggestion of mapComponent.searchSuggestions" [value]="suggestion.properties.name">
+            {{ suggestion.properties.name }}
+          </option>
+        </select>
+      </div>
+      
     </div>
   </div>  
   
