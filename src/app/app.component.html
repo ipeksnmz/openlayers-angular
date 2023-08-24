@@ -41,6 +41,13 @@
           <option *ngFor="let suggestion of mapComponent.searchSuggestions" [value]="suggestion.properties.name"></option>
         </select>
       </datalist>
+
+      <!-- <select [(ngModel)]="mapComponent.inputValue" (ngModelChange)="mapComponent.startSearch(mapComponent.inputValue)">
+        <option value="" disabled>Select a place</option>
+        <option *ngFor="let suggestion of mapComponent.searchSuggestions" [value]="suggestion.properties.name">
+          {{ suggestion.properties.name }}
+        </option>
+      </select> -->
             
     </div>
   </div>  
@@ -55,6 +62,5 @@
 
 <footer>
   <app-scaleline #scaleLineComponent ></app-scaleline>
-  MADE BY ipeks
   <mouse-position #mousePositionComponent ></mouse-position>
 </footer>

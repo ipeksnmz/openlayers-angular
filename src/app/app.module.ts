@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
 import { ScalelineComponent } from './scaleline/scaleline.component';
 import { MousePositionComponent } from './mouse-position/mouse-position.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { MousePositionComponent } from './mouse-position/mouse-position.componen
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
