@@ -35,7 +35,7 @@ export class MapComponent implements OnInit{
   clickedLayer!: VectorLayer<VectorSource>;
 
   mapOpacity!: number;
-
+  inputValue!: string;
   searchSuggestions: any[] = [];
 
   ngOnInit() {
@@ -137,8 +137,8 @@ export class MapComponent implements OnInit{
   }
 
   startSearch(query: string) {
-    this.searchService.search(query).subscribe(response => {
-      //this.searchSuggestions = response.features;
+    this.inputValue = query;
+    this.searchService.search(this.inputValue).subscribe(response => {
       if (response.features && response.features.length > 0) {
         const coordinates = response.features[0].geometry.coordinates;
         this.map.getView().animate({
@@ -151,7 +151,8 @@ export class MapComponent implements OnInit{
   }
 
   startTypeahead(query: string) {
-    this.searchService.search(query).subscribe(response => {
+    this.inputValue = query;
+    this.searchService.search(this.inputValue).subscribe(response => {
       this.searchSuggestions = response.features;
     });
   }

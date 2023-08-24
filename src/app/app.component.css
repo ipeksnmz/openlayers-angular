@@ -29,8 +29,7 @@ footer {
 }
 .dropdown {
     position: relative;
-}
-  
+} 
 .dropdown select {
     position: absolute;
     width: 67%;
